@@ -8,6 +8,41 @@
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script>
+$(document).ready(function() {
+	
+	$("#login").click(function() {
+		var id = $('input[name=id]').val()
+		var pw = $('input[name=pw]').val()
+		var queryString = $('#loginForm').serialize()
+		
+		if (emptyChk(id, '아이디') && emptyChk(pw, '비밀번호')) {
+			$.ajax({
+				type: "POST",
+				url: "/member/login", 
+				dataType: "json", 
+				data: queryString, 
+				success: function(res) {
+					if (res.result == 'true') {
+						alert(res.msg)
+						location.href='/'
+					} else {
+						alert(res.msg)
+					}
+				}
+			})
+		}
+	})
+	
+	function emptyChk(val, msg) {
+		if (val == '') {
+			alert(msg + '를 입력해주세요')
+			return false
+		}
+		return true
+	}
+})
+</script>
 </head>
 <body>
 
@@ -27,7 +62,7 @@
             <li class="nav-item"><a href="/member/join" class="nav-link">회원가입</a></li>
             </c:when>
             <c:otherwise>
-            <li class="nav-item"><a href="#" class="nav-link">로그아웃</a></li>
+            <li class="nav-item"><a href="/member/logout" class="nav-link">로그아웃</a></li>
             <li class="nav-item"><a href="#" class="nav-link">회원정보</a></li>
             </c:otherwise>
             </c:choose>
@@ -41,21 +76,21 @@
     <div class="modal-content rounded-5 shadow">
       <div class="modal-header p-5 pb-4 border-bottom-0">
         <!-- <h5 class="modal-title">Modal title</h5> -->
-        <h2 class="fw-bold mb-0">Sign up for free</h2>
+        <h2 class="fw-bold mb-0">로그인</h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body p-5 pt-0">
-        <form class="">
+        <form class="" id="loginForm">
           <div class="form-floating mb-3">
-            <input type="email" class="form-control rounded-4" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
+            <input type="text" class="form-control rounded-4" id="floatingInput" placeholder="아이디를 입력하세요" name="id">
+            <label for="floatingInput">아이디</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
+            <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="비밀번호를 입력하세요" name="pw">
+            <label for="floatingPassword">비밀번호</label>
           </div>
-          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit">Sign up</button>
+          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="button" id="login">로그인</button>
           <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
           <hr class="my-4">
           <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>

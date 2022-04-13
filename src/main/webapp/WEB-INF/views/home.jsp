@@ -1,14 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
-<html>
-<head>
-	<title>Home</title>
-</head>
-<body>
-<h1>
-	Hello world!  
-</h1>
 
-<P>  The time on the server is ${serverTime}. </P>
-</body>
-</html>
+<%@include file="/WEB-INF/views/component/header.jsp" %>
+
+<div class="container">
+로그인 세션: ${empty isLogin}<br>
+로그인 세션 아이디: ${loginId}<br>
+</div>
+
+<%@include file="/WEB-INF/views/component/footer.jsp" %>

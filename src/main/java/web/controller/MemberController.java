@@ -3,10 +3,13 @@ package web.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -42,6 +45,25 @@ public class MemberController {
 	public String login() {
 		logger.info("[/member/login][GET]");
 		return "member/login";
+	}
+	
+	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
+	public @ResponseBody Map<String, String> loginProcess(Member member, HttpSession session) {
+		logger.info("[/member/login][POST]");
+		logger.info("요청 파라미터 - member: {}", member);
+		Map<String, String> json = new HashMap<>();
+		
+		memberService.login(member, json, session);
+		logger.info("세션: {}, {}", session.getAttribute("isLogin"), session.getAttribute("loginId"));
+		
+		return json;
+	}
+	
+	@RequestMapping(value = "/member/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) {
+		logger.info("[/member/logout][GET]");
+		session.invalidate();
+		return "redirect:/";
 	}
 
 }

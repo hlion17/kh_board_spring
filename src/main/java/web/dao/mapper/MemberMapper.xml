@@ -10,4 +10,10 @@
 		VALUES (#{id}, #{nick}, #{pw})
 	</insert>
 	
+	<select id="findById" parameterType="web.dto.Member" resultType="web.dto.Member">
+		SELECT id, nick, pw 
+		FROM member
+		WHERE id = #{id}
+	</select>
+	
 </mapper>
