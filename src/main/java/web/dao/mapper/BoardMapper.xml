@@ -5,4 +5,17 @@
     
 <mapper namespace="web.dao.face.BoardDao">
 
+	<select id="getTotal" resultType="int">
+		SELECT count(*)
+		FROM board
+	</select>
+	
+	<select id="findPageList" resultType="web.dto.Board" parameterType="web.common.Pagination">
+		SELECT board_no, title, content, writer_id, writer_nick, hit, write_date
+		FROM (
+			SELECT row_number() over (order by board_no desc) R, board.* FROM board
+		)
+		WHERE R between #{startIndex} and #{endIndex}
+	</select>
+	
 </mapper>
