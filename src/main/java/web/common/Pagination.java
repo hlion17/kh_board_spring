@@ -26,6 +26,7 @@ public class Pagination {
 		
 		// 총 페이지 수 계산
 		setPageCnt(listCnt);
+		if (curPage > pageCnt) this.curPage = pageCnt;
 		// 총 블럭수 계산
 		setBlockCnt(pageCnt);
 		// 블럭 세팅
