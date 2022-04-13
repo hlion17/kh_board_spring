@@ -26,12 +26,12 @@ public class Pagination {
 		
 		// 총 페이지 수 계산
 		setPageCnt(listCnt);
+		// 현재 페이지가 총 페이지 수를 넘어가는 경우 처리
 		if (curPage > pageCnt) this.curPage = pageCnt;
 		// 총 블럭수 계산
 		setBlockCnt(pageCnt);
 		// 블럭 세팅
 		blockSetting(curPage);
-		
 		// startIndex
 		setIndex(curPage);
 	}

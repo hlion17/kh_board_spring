@@ -31,10 +31,9 @@ public class BoardServiceImpl implements BoardService {
 		
 		// 게시글 페이지 조회
 		int total = boardDao.getTotal();
-		log.info("전체 게시글수 조회 결과: {}", total);
-				
+		log.info("전체 게시글 수 조회 결과: {}", total);
 		Pagination pn = new Pagination(curPage, 10, total);
-		log.info("start: {}, end: {}", pn.getStartIndex(), pn.getEndIndex());
+		log.info("startIdx: {}, endIdx: {}", pn.getStartIndex(), pn.getEndIndex());
 		
 		List<Board> list = boardDao.findPageList(pn);
 		log.info("게시글 페이지 조회 결과: {}", list);

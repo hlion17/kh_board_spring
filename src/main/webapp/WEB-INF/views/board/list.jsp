@@ -46,7 +46,7 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="/board/list?curPage=${pn.prevPage}">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="/board/list?curPage=${pn.prevPage}">Prev</a></li>
                 </c:if>
                 <c:forEach begin="${pn.startPage}" end="${pn.endPage}" var="i">
                 <c:choose>
