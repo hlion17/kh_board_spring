@@ -45,4 +45,13 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	@Override
+	public void getBoard(Board board, Model model) {
+		Board foundBoard = boardDao.findById(board);
+		log.info("조회된 게시글: ", foundBoard);
+		
+		model.addAttribute("board", foundBoard);
+		
+	}
+
 }

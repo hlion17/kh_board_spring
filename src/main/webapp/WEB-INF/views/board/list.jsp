@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@include file="/WEB-INF/views/component/header.jsp" %>
 
 <div class="container">
@@ -20,7 +21,7 @@
         <c:forEach var="b" items="${list}">
         <tr>
             <td>${b.boardNo}</td>
-            <td>${b.title}</td>
+            <td><a href="/board/view?boardNo=${b.boardNo}">${b.title}</a></td>
             <td>${b.writerId}</td>
             <td>
             <fmt:formatDate value="${b.writeDate}" pattern="yyyy/MM/dd"/>

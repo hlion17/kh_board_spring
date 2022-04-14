@@ -11,4 +11,6 @@ public interface BoardDao {
 
 	List<Board> findPageList(Pagination pn);
 
+	Board findById(Board board);
+
 }

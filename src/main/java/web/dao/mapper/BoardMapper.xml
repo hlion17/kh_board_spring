@@ -18,4 +18,10 @@
 		WHERE R between #{startIndex} and #{endIndex}
 	</select>
 	
+	<select id="findById" parameterType="web.dto.Board" resultType="web.dto.Board">
+		SELECT board_no, title, content, writer_id, writer_nick, hit, write_date
+		FROM board
+		WHERE board_no = #{boardNo} 
+	</select>
+	
 </mapper>
