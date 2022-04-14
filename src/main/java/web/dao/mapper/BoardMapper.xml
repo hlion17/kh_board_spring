@@ -24,4 +24,12 @@
 		WHERE board_no = #{boardNo} 
 	</select>
 	
+	<insert id="insert" parameterType="web.dto.Board">
+		<selectKey order="BEFORE" resultType="int" keyProperty="boardNo">
+			SELECT board_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO board (board_no, title, content, writer_id, writer_nick)
+		VALUES (#{boardNo}, #{title}, #{content}, #{writerId}, #{writerNick})
+	</insert>
+	
 </mapper>

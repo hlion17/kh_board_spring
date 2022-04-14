@@ -34,7 +34,7 @@
     </div>
     <div class="row justify-content-start">
         <div class="col-2">
-        <button type="button" class="btn btn-primary">글작성</button>
+        <button type="button" class="btn btn-primary" onclick="location.href='/board/write'">글작성</button>
         </div>
     </div>
     <div class="row justify-content-center">

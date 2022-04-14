@@ -13,4 +13,6 @@ public interface BoardDao {
 
 	Board findById(Board board);
 
+	int insert(Board board);
+
 }

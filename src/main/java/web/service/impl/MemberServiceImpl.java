@@ -58,6 +58,7 @@ public class MemberServiceImpl implements MemberService{
 		} else {
 			session.setAttribute("isLogin", true);
 			session.setAttribute("loginId", foundMember.getId());
+			session.setAttribute("loginNick", foundMember.getNick());
 		}
 		
 	}

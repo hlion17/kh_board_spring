@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.common.Pagination;
 import web.dao.face.BoardDao;
@@ -52,6 +53,19 @@ public class BoardServiceImpl implements BoardService {
 		
 		model.addAttribute("board", foundBoard);
 		
+	}
+
+	@Override
+	public void write(Board board, Model model, RedirectAttributes rttr) {
+		int result = boardDao.insert(board);
+		
+		if (result == 1) {
+			rttr.addFlashAttribute("msg", "게시글이 성공적으로 등록되었습니다.");
+			log.info("게시글 등록 성공");
+		} else {
+			rttr.addFlashAttribute("msg", "게시글 등록에 실패했습니다.");
+			log.warn("게시글 등록 실패");
+		}
 	}
 
 }
