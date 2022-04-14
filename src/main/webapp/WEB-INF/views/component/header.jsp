@@ -77,7 +77,7 @@ $(document).ready(function() {
             </c:when>
             <c:otherwise>
             <li class="nav-item"><a href="/member/logout" class="nav-link">로그아웃</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">회원정보</a></li>
+            <li class="nav-item"><a href="/member/detail?id=${loginId}" class="nav-link">회원정보</a></li>
             </c:otherwise>
             </c:choose>
         </ul>

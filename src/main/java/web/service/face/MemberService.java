@@ -14,4 +14,6 @@ public interface MemberService {
 
 	void login(Member member, Model model, HttpSession session);
 
+	void getDetail(Member member, Model model);
+
 }

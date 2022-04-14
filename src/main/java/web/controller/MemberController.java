@@ -62,5 +62,15 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@RequestMapping(value = "/member/detail", method = RequestMethod.GET)
+	public String detail(Member member, Model model) {
+		logger.info("[/member/detail][GET]");
+		logger.info("요청 파라미터 - member: {}", member);
+		
+		memberService.getDetail(member, model);
+		
+		return "member/detail";
+	}
 
 }
