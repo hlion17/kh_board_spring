@@ -1,5 +1,8 @@
 package web.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +41,15 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/view", method = RequestMethod.GET)
-	public String view(Board board, Model model) {
+	public String view(Board board
+			, Model model
+			, HttpServletRequest request
+			, HttpServletResponse response) {
 		log.info("[/board/view][GET]");
 		log.info("요청 파라미터 - board: ", board);
 		
 		boardService.getBoard(board, model);
+		boardService.countingHit(board, request, response);
 		
 		return "board/view";
 	}

@@ -15,4 +15,6 @@ public interface BoardDao {
 
 	int insert(Board board);
 
+	int updateHit(Board board);
+
 }

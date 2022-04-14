@@ -1,5 +1,8 @@
 package web.service.face;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -12,5 +15,7 @@ public interface BoardService {
 	void getBoard(Board board, Model model);
 
 	void write(Board board, Model model, RedirectAttributes rttr);
+
+	void countingHit(Board board, HttpServletRequest requset, HttpServletResponse response);
 
 }

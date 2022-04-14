@@ -32,4 +32,10 @@
 		VALUES (#{boardNo}, #{title}, #{content}, #{writerId}, #{writerNick})
 	</insert>
 	
+	<update id="updateHit" parameterType="web.dto.Board">
+		UPDATE board 
+		SET hit = hit + 1
+		WHERE board_no = #{boardNo}
+	</update>
+	
 </mapper>

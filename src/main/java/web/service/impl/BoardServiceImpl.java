@@ -1,8 +1,10 @@
 package web.service.impl;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +67,54 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			rttr.addFlashAttribute("msg", "게시글 등록에 실패했습니다.");
 			log.warn("게시글 등록 실패");
+		}
+	}
+
+	
+	@Override
+	public void countingHit(Board board
+			, HttpServletRequest requset
+			, HttpServletResponse response) {
+		
+		int result = -1;
+		
+		Cookie oldCookie = null;
+		Cookie[] cookies = requset.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("postView")) {
+					oldCookie = cookie;
+				}
+			}
+		}
+		
+		// 이 정도면 로거레벨 debug가 어울리지 않을까?
+		if (oldCookie != null) {
+			// 본적 없는 게시물인 경우 조회수 증가
+			if (!oldCookie.getValue().contains("[" + board.getBoardNo() + "]")) {
+				result = boardDao.updateHit(board);
+				oldCookie.setValue(oldCookie.getValue() + "_[" + board.getBoardNo() + "]");
+				oldCookie.setPath("/");
+				oldCookie.setMaxAge(60 * 60 * 24);
+				response.addCookie(oldCookie);
+				log.info("처음 본 게시물 조회수 증가");
+			}
+			log.info("이미 본 게시물 조회수 증가시키지 않음");
+		} else {
+			// 게시글 조회 쿠키가 없는 경우 조회수 증가
+			// 조회 쿠키 생성
+			result = boardDao.updateHit(board);
+			Cookie newCookie = new Cookie("postView", "[" + board.getBoardNo() + "]");
+			newCookie.setPath("/");
+			newCookie.setMaxAge(60 * 60 * 24);
+			response.addCookie(newCookie);
+			log.info("조회 쿠기 없음, 조회수 증가시키고 조회쿠키 생성");
+		}
+		
+		if (result == 1) {
+			log.info("조회수 증가");
+		} else {
+			log.warn("조회수 증가 실패");
 		}
 	}
 
