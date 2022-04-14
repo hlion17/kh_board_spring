@@ -5,7 +5,7 @@
 <%@include file="/WEB-INF/views/component/header.jsp" %>
 
 <div class="container">
-로그인 세션: ${empty isLogin}<br>
+로그인 세션: ${isLogin}<br>
 로그인 세션 아이디: ${loginId}<br>
 </div>
 

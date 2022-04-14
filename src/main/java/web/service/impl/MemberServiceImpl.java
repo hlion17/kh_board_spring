@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import web.dao.face.MemberDao;
 import web.dto.Member;
@@ -39,7 +40,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void login(Member member, Map<String, String> json, HttpSession session) {
+	public void login(Member member, Model model, HttpSession session) {
 		String id = member.getId();
 		String pw = member.getPw();
 		String dest = "";
@@ -50,18 +51,11 @@ public class MemberServiceImpl implements MemberService{
 		
 		if (foundMember == null) {
 			logger.info("아이디가 존재하지 않음");
-			json.put("msg", "아이디가 존재하지 않음");
-			json.put("result", "false");
+			model.addAttribute("msg", "아이디가 존재하지 않음");
 		} else if (!pw.equals(foundMember.getPw())) {
-			logger.info("비밀번호가 일치하지 않습니다.");
-			json.put("msg", "비밀번호가 일치하지 않습니다.");
-			json.put("result", "false");
+			logger.info("비밀번호 불일치");
+			model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
 		} else {
-			json.put("msg", "로그인에 성공하였습니다.");
-			json.put("result", "true");
-			if (!"".equals(dest)) {
-				json.put("dest", dest);
-			}
 			session.setAttribute("isLogin", true);
 			session.setAttribute("loginId", foundMember.getId());
 		}

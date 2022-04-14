@@ -11,7 +11,8 @@
 <script>
 $(document).ready(function() {
 	
-	$("#login").click(function() {
+	
+	/* $("#login").click(function() {
 		var id = $('input[name=id]').val()
 		var pw = $('input[name=pw]').val()
 		var queryString = $('#loginForm').serialize()
@@ -25,14 +26,26 @@ $(document).ready(function() {
 				success: function(res) {
 					if (res.result == 'true') {
 						alert(res.msg)
-						location.href='/'
+						//location.href='/'
 					} else {
 						alert(res.msg)
 					}
 				}
 			})
 		}
+	}) */
+	
+	/* $("#loginForm").submit(function() {
+		var id = $('input[name=id]').val()
+		var pw = $('input[name=pw]').val()
+		var queryString = $('#loginForm').serialize()
+		
+		if (emptyChk(id, '아이디') && emptyChk(pw, '비밀번호')) {
+			$(this).submit()
+		}
+		return false
 	})
+	
 	
 	function emptyChk(val, msg) {
 		if (val == '') {
@@ -40,7 +53,7 @@ $(document).ready(function() {
 			return false
 		}
 		return true
-	}
+	} */
 })
 </script>
 </head>
@@ -58,7 +71,8 @@ $(document).ready(function() {
             <li class="nav-item"><a href="/board/list" class="nav-link" aria-current="page">게시판</a></li>
             <c:choose>
             <c:when test="${empty isLogin}">
-            <li class="nav-item"><a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a></li>
+<!--             <li class="nav-item"><a href="" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</a></li> -->
+            <li class="nav-item"><a href="/member/login" class="nav-link">로그인</a></li>
             <li class="nav-item"><a href="/member/join" class="nav-link">회원가입</a></li>
             </c:when>
             <c:otherwise>
@@ -71,17 +85,18 @@ $(document).ready(function() {
 </div>
 
 <!-- 로그인 모달 -->
-<div class="modal fade" tabindex="-1" role="dialog" id="loginModal">
+<!-- 사용 보류 -->
+<!-- <div class="modal fade" tabindex="-1" role="dialog" id="loginModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content rounded-5 shadow">
       <div class="modal-header p-5 pb-4 border-bottom-0">
-        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h5 class="modal-title">Modal title</h5>
         <h2 class="fw-bold mb-0">로그인</h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
       <div class="modal-body p-5 pt-0">
-        <form class="" id="loginForm">
+        <form class="" id="loginForm" action="/member/login" method="post">
           <div class="form-floating mb-3">
             <input type="text" class="form-control rounded-4" id="floatingInput" placeholder="아이디를 입력하세요" name="id">
             <label for="floatingInput">아이디</label>
@@ -90,7 +105,7 @@ $(document).ready(function() {
             <input type="password" class="form-control rounded-4" id="floatingPassword" placeholder="비밀번호를 입력하세요" name="pw">
             <label for="floatingPassword">비밀번호</label>
           </div>
-          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="button" id="login">로그인</button>
+          <button class="w-100 mb-2 btn btn-lg rounded-4 btn-primary" type="submit" id="login">로그인</button>
           <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
           <hr class="my-4">
           <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
@@ -110,4 +125,4 @@ $(document).ready(function() {
       </div>
     </div>
   </div>
-</div>
+</div> -->

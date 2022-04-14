@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,15 +49,11 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
-	public @ResponseBody Map<String, String> loginProcess(Member member, HttpSession session) {
+	public void loginProcess(Member member, HttpSession session, Model model) {
 		logger.info("[/member/login][POST]");
 		logger.info("요청 파라미터 - member: {}", member);
-		Map<String, String> json = new HashMap<>();
 		
-		memberService.login(member, json, session);
-		logger.info("세션: {}, {}", session.getAttribute("isLogin"), session.getAttribute("loginId"));
-		
-		return json;
+		memberService.login(member, model, session);
 	}
 	
 	@RequestMapping(value = "/member/logout", method = RequestMethod.GET)

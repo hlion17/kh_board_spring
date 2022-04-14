@@ -21,6 +21,18 @@
 	<aop:aspectj-autoproxy />
 	
 	<!-- 인터셉터 -->
+	<interceptors>
+		<!-- 로그인 인터셉터 -->
+		<interceptor>
+			<mapping path="/member/login"/>
+			<beans:bean class="web.interceptor.LoginInterceptor"/>
+		</interceptor>
+		<!-- 로그인 인증 인터셉터 -->
+		<interceptor>
+			<mapping path="/board/write"/>
+			<beans:bean class="web.interceptor.AuthInterceptor"/>
+		</interceptor>
+	</interceptors>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
