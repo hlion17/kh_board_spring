@@ -5,6 +5,16 @@
 
 <%@include file="/WEB-INF/views/component/header.jsp" %>
 
+<script>
+$(document).ready(function (){
+	var msg = '${msg}'
+	
+	if (msg != '') {
+		alert(msg)
+	}
+})
+</script>
+
 <div class="container">
     <div class="row">
     <table class="table table-hover">

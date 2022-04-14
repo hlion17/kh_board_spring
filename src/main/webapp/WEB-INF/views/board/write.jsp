@@ -3,6 +3,9 @@
 
 <%@include file="/WEB-INF/views/component/header.jsp" %>
 
+<!-- 텍스트 에디터 로드 -->
+<script src="/resources/ckeditor/ckeditor.js"></script>
+
 <script>
 $(document).ready(function() {
 	
@@ -34,7 +37,10 @@ $(document).ready(function() {
 		var title = $('input[name=title]').val()
 		var content = $('textarea[name=content]').val()
 
-		if (emptyChk(title, '제목') && emptyChk(content, '내용')) {
+/* 		if (emptyChk(title, '제목') && emptyChk(content, '내용')) {
+			$(this).submit()	
+		} */
+		if (emptyChk(title, '제목')) {
 			$(this).submit()	
 		}
 		return false;
@@ -77,5 +83,14 @@ $(document).ready(function() {
 </form>
 
 </div>
+
+<!-- 텍스트 에디터 -->
+<script>
+    $(function () {
+        CKEDITOR.replace('content', {
+            filebrowserUploadUrl: '/ck/upload'
+        })
+    });
+</script>
 
 <%@include file="/WEB-INF/views/component/footer.jsp" %>

@@ -25,9 +25,17 @@
     <input type="text" readonly class="form-control-plaintext" id="title" disabled readonly value="<fmt:formatDate value="${board.writeDate}" pattern="yyyy/MM/dd"/>">
   </div>
 </div>
-<div class="mb-3">
+
+<%-- <div class="mb-3">
   <label for="content" class="form-label">글내용</label>
   <textarea class="form-control" id="content" rows="3" disabled readonly>${board.content}</textarea>
+</div> --%>
+<div>
+	<span class="form-label">글내용</span>
+</div>
+<hr>
+<div>
+${board.content}
 </div>
 
 <div class="row justify-content-start">
