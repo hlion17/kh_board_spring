@@ -1,7 +1,11 @@
 package web.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.common.Pagination;
@@ -21,6 +26,9 @@ import web.service.face.BoardService;
 @Service
 public class BoardServiceImpl implements BoardService {
 	private static final Logger log = LoggerFactory.getLogger(BoardService.class);
+	
+	@Autowired
+	ServletContext context;
 	
 	@Autowired
 	private BoardDao boardDao;
@@ -116,6 +124,32 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			log.warn("조회수 증가 실패");
 		}
+	}
+
+	
+	@Override
+	public String fileUpload(MultipartFile file) {
+		// 파일 저장 경로 생성
+		String storedPath = context.getRealPath("img");
+		File storedFolder = new File(storedPath);
+		if (storedFolder.exists()) {
+			storedFolder.mkdir();			
+		}
+		
+		// 저장 파일 이름 생성
+		String fileName = UUID.randomUUID().toString().split("-")[4] + file.getOriginalFilename();
+		
+		// 업로드 파일 객체 생성
+		File dest = new File(storedFolder, fileName);
+		
+		// 파일 업로드
+		try {
+			file.transferTo(dest);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
+		return fileName;
 	}
 
 }

@@ -1,5 +1,14 @@
 package web.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,10 +17,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import web.dto.Board;
 import web.service.face.BoardService;
@@ -68,6 +82,29 @@ public class BoardController {
 		boardService.write(board, model, rttr);
 		
 		return "redirect:/board/list";
+	}
+	
+	@RequestMapping(value = "/ck/upload", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> ckUpload(
+			HttpServletRequest req
+			, HttpServletResponse resp
+			, @RequestParam("upload") MultipartFile file) {
+		
+		resp.setCharacterEncoding("UTF-8");
+		resp.setContentType("text/html; charset=UTF-8");
+		
+		String fileName = boardService.fileUpload(file);
+		String fileUrl = "/ckImg/" + fileName;
+		
+		Map<String, Object> json = new HashMap<>();
+		json.put("uploaded", 1);
+		json.put("fileName", fileName);
+		json.put("url", fileUrl);
+		
+		log.info("json: {}", json);
+		
+		return json;
 	}
 
 }
