@@ -91,8 +91,8 @@ public class BoardController {
 			, HttpServletResponse resp
 			, @RequestParam("upload") MultipartFile file) {
 		
-		resp.setCharacterEncoding("UTF-8");
-		resp.setContentType("text/html; charset=UTF-8");
+		//resp.setCharacterEncoding("UTF-8");
+		//resp.setContentType("text/html; charset=UTF-8");
 		
 		String fileName = boardService.fileUpload(file);
 		String fileUrl = "/ckImg/" + fileName;
@@ -107,4 +107,22 @@ public class BoardController {
 		return json;
 	}
 
+	@RequestMapping(value = "/board/update", method = RequestMethod.GET)
+	public String update(Board board, Model model) {
+		log.info("[/board/update][GET]");
+		log.info("요청 파라미터 - board: {}", board);
+		
+		boardService.getBoard(board, model);
+		return "board/update";
+	}
+	
+	@RequestMapping(value = "/board/update", method = RequestMethod.POST)
+	public String updateProcess(Board board, Model model, RedirectAttributes rttr) {
+		log.info("[/board/update][POST]");
+		log.info("요청 파라미터 - board: {}", board);
+		
+		boardService.update(board, model, rttr);
+		
+		return "redirect:/board/list";
+	}
 }

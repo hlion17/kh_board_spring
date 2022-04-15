@@ -38,4 +38,10 @@
 		WHERE board_no = #{boardNo}
 	</update>
 	
+	<update id="update" parameterType="web.dto.Board">
+		UPDATE board
+		SET title = #{title}, content = #{content}
+		WHERE board_no = #{boardNo}
+	</update>
+	
 </mapper>

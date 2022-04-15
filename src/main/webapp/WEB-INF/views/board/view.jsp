@@ -37,10 +37,17 @@
 <div>
 ${board.content}
 </div>
+<hr>
 
 <div class="row justify-content-start">
-    <div class="col-2">
+    <div class="col-auto">
     <button type="button" class="btn btn-primary" onclick="location.href='/board/list'">목록으로</button>
+    </div>
+    <div class="col-auto">
+    <button type="button" class="btn btn-warning" onclick="location.href='/board/update?boardNo=${board.boardNo}'">수정</button>
+    </div>
+    <div class="col-auto">
+    <button type="button" class="btn btn-danger" onclick="location.href='/board/delete?boardNo=${board.boardNo}'">삭제</button>
     </div>
 </div>
 

@@ -78,7 +78,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	
 	@Override
 	public void countingHit(Board board
 			, HttpServletRequest requset
@@ -126,7 +125,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	
 	@Override
 	public String fileUpload(MultipartFile file) {
 		// 파일 저장 경로 생성
@@ -150,6 +148,20 @@ public class BoardServiceImpl implements BoardService {
 		}
 	
 		return fileName;
+	}
+
+	
+	@Override
+	public void update(Board board, Model model, RedirectAttributes rttr) {
+		int result = boardDao.update(board);
+		
+		if (result == 1) {
+			log.info("게시글 업데이트 성공");
+			rttr.addFlashAttribute("msg", "수정 성공");
+		} else {
+			log.info("게시글 업데이트 실패");
+			rttr.addFlashAttribute("msg", "수정 실패");
+		}
 	}
 
 }

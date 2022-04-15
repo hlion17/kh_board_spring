@@ -21,4 +21,6 @@ public interface BoardService {
 
 	String fileUpload(MultipartFile file);
 
+	void update(Board board, Model model, RedirectAttributes rttr);
+
 }

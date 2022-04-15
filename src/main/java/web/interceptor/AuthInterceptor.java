@@ -16,7 +16,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.info("[로그인 인증 PRE 인터셉터]");
-		logger.info(">> 인증 요청 URL: {}", request.getRequestURI());
+		logger.info(">> 인증 요청 URL: {}/{}", request.getRequestURI(), request.getQueryString());
 		HttpSession session = request.getSession();
 		
 		if (session.getAttribute("isLogin") == null) {
