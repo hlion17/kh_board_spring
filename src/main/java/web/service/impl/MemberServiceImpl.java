@@ -24,17 +24,17 @@ public class MemberServiceImpl implements MemberService{
 	MemberDao memberDao;
 
 	@Override
-	public void join(Member member, Map<String, String> resJson) {
+	public int join(Member member) {
 		logger.info("MemberService");
 		
 		int result = memberDao.insert(member);
 		
-		if (result >= 1) {
+		if (result == 1) {
 			logger.info("회원가입 성공");
-			resJson.put("msg", "success");
+			return 1;
 		} else {
 			logger.info("회원가입 실패");
-			resJson.put("msg", "fail");
+			return -1;
 		}
 		
 	}

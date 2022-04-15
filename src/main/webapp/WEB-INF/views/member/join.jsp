@@ -8,7 +8,7 @@ $(document).ready(function() {
 	var pw
 	var pwch
 	
-	$("#joinSubmit").click(function() {
+/* 	$("#joinSubmit").click(function() {
 		id = $('input[name=id]').val()
 		pw = $('input[name=pw]').val()
 		pwch = $('#pwch').val()
@@ -36,8 +36,20 @@ $(document).ready(function() {
 				}
 			})
 		}
-	})
+	}) */
 	
+	// 회원가입 요청
+	$("#joinSubmit").click(function(){
+		id = $('input[name=id]').val()
+		pw = $('input[name=pw]').val()
+		nick = $('input[name=nick]').val()
+		pwch = $('#pwch').val()
+		
+		if (idChk(id) && pwChk(pw, pwch)) {
+			sendData("/member/join", {id: id, pw: pw, nick: nick})			
+		}
+
+	})
 	
 	// 입력란 빈칸 확인
 	function emptyChk(val, msg) {

@@ -10,7 +10,7 @@ import web.dto.Member;
 
 public interface MemberService {
 
-	void join(Member member, Map<String, String> resJson);
+	int join(Member member);
 
 	void login(Member member, Model model, HttpSession session);
 
