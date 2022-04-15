@@ -44,4 +44,9 @@
 		WHERE board_no = #{boardNo}
 	</update>
 	
+	<delete id="delete" parameterType="web.dto.Board">
+		DELETE board
+		WHERE board_no = #{boardNo}
+	</delete>
+	
 </mapper>

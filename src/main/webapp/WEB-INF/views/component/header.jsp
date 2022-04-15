@@ -9,7 +9,28 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 <script>
+
+// POST 함수 정의
+function sendData(path, parameters, method = 'post') {
+    const form = document.createElement('form')
+    form.method = method
+    form.action = path
+    document.body.appendChild(form)
+
+    for (const key in parameters) {
+        const formField = document.createElement('input')
+        formField.type = 'hidden'
+        formField.name = key
+        formField.value = parameters[key]
+
+        form.appendChild(formField)
+    }
+    form.submit()
+}
+
 $(document).ready(function() {
+	
+
 	
 	
 	/* $("#login").click(function() {

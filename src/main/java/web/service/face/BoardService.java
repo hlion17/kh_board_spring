@@ -23,4 +23,6 @@ public interface BoardService {
 
 	void update(Board board, Model model, RedirectAttributes rttr);
 
+	void delete(Board board, RedirectAttributes rttr);
+
 }

@@ -164,4 +164,18 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	
+	@Override
+	public void delete(Board board, RedirectAttributes rttr) {
+		int result = boardDao.delete(board);
+		
+		if (result == 1) {
+			log.info("글 삭제 성공");
+			rttr.addFlashAttribute("msg", "게시글이 삭제되었습니다.");
+		} else {
+			log.info("글 삭제 실패");
+			rttr.addFlashAttribute("msg", "게시글 삭제 실패");
+		}
+	}
+
 }

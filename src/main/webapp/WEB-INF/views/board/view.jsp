@@ -5,6 +5,46 @@
 
 <%@include file="/WEB-INF/views/component/header.jsp" %>
 
+<!-- 메세지 스크립트 -->
+<script>
+$(document).ready(function (){
+	var msg = '${msg}'
+	
+	if (msg != '') {
+		alert(msg)
+	}
+	
+	// 글 삭제 POST 요청
+	/* $("#boardDel").click(function() {
+		var boardNo = '${board.boardNo}'
+		var writerId = '${board.writerId}'
+		
+		$.ajax({
+			type: "POST"
+			, url: "/board/delete"
+			, dataType: "html"
+			, data: {boardNo: boardNo, writerId: writerId}
+			, success: function(res) {
+				cocsole.log("ajax 성공")
+			}
+			, error: function() {
+				console.log("ajax 실패")
+			}
+		})
+	}) */
+	
+	$("#boardDel").click(function() {
+		var boardNo = '${board.boardNo}'
+		var writerId = '${board.writerId}'
+		
+		sendData('/board/delete', {boardNo: boardNo, writerId: writerId})	
+	})
+	
+	
+})
+</script>
+
+
 <div class="container">
 
 <div class="mb-3 row">
@@ -44,10 +84,10 @@ ${board.content}
     <button type="button" class="btn btn-primary" onclick="location.href='/board/list'">목록으로</button>
     </div>
     <div class="col-auto">
-    <button type="button" class="btn btn-warning" onclick="location.href='/board/update?boardNo=${board.boardNo}'">수정</button>
+    <button type="button" class="btn btn-warning" onclick="location.href='/board/update?boardNo=${board.boardNo}&writerId=${board.writerId}'">수정</button>
     </div>
     <div class="col-auto">
-    <button type="button" class="btn btn-danger" onclick="location.href='/board/delete?boardNo=${board.boardNo}'">삭제</button>
+    <button type="button" id="boardDel" class="btn btn-danger">삭제</button>
     </div>
 </div>
 
