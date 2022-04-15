@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,7 @@ import web.service.face.BoardService;
 @Controller
 public class BoardController {
 	private static final Logger log = LoggerFactory.getLogger(BoardController.class);
+	
 	@Autowired
 	private BoardService boardService;
 	
@@ -57,6 +59,7 @@ public class BoardController {
 		
 		boardService.getBoard(board, model);
 		boardService.countingHit(board, request, response);
+		boardService.isRecommendedBoard(board, request, model);
 		
 		return "board/view";
 	}
@@ -138,4 +141,19 @@ public class BoardController {
 		
 		return "redirect:/board/list";
 	}
+	
+	@RequestMapping(value = "/board/recommned", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> recommned(Board board, @RequestParam String loginId) {
+		log.info("[/board/recommend][POST]");
+		log.info("요청 파라미터 - board: {}", board);
+		log.info("요청 파라미터 - loginId: {}", loginId);
+		
+		Map<String, String> json = new HashMap<>();
+		
+		boardService.recommendBoard(board, loginId, json);
+		
+		return json;
+	}
+	
 }

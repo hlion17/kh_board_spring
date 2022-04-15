@@ -26,7 +26,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 			// 현재 URL 저장
 			saveDest(request);
 			
-			// 로그인 하지 않은 사용자의 경우 로그인 페이지로 이동
+			// 로그인 하지 않은 사용자의 경우 로그인 페이지로 이동 
 			response.sendRedirect("/member/login");
 			return false;
 		}

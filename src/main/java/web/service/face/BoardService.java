@@ -1,5 +1,7 @@
 package web.service.face;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,5 +26,9 @@ public interface BoardService {
 	void update(Board board, Model model, RedirectAttributes rttr);
 
 	void delete(Board board, RedirectAttributes rttr);
+
+	void isRecommendedBoard(Board board, HttpServletRequest request, Model model);
+
+	void recommendBoard(Board board, String loginId, Map<String, String> json);
 
 }

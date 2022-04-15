@@ -25,6 +25,7 @@ $(document).ready(function (){
             <th scope="col">작성자</th>
             <th scope="col">작성일</th>
             <th scope="col">조회수</th>
+            <th scope="col">추천수</th>
         </tr>
         </thead>
         <tbody>
@@ -37,6 +38,7 @@ $(document).ready(function (){
             <fmt:formatDate value="${b.writeDate}" pattern="yyyy/MM/dd"/>
 			</td>
             <td>${b.hit}</td>
+            <td>${b.recommend}</td>
         </tr>
         </c:forEach>
         </tbody>

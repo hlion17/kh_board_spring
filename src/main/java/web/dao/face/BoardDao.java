@@ -1,6 +1,7 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.common.Pagination;
 import web.dto.Board;
@@ -20,5 +21,11 @@ public interface BoardDao {
 	int update(Board board);
 
 	int delete(Board board);
+
+	int isRecommended(Map<String, Object> paramMap);
+
+	int insertRecommend(Map<String, Object> paramMap);
+
+	int deleteRecommend(Map<String, Object> paramMap);
 
 }

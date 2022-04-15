@@ -2,7 +2,9 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -149,7 +151,6 @@ public class BoardServiceImpl implements BoardService {
 	
 		return fileName;
 	}
-
 	
 	@Override
 	public void update(Board board, Model model, RedirectAttributes rttr) {
@@ -164,7 +165,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	
 	@Override
 	public void delete(Board board, RedirectAttributes rttr) {
 		int result = boardDao.delete(board);
@@ -178,4 +178,58 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
+	
+	@Override
+	public void isRecommendedBoard(Board board, HttpServletRequest request, Model model) {
+		String loginId = (String) request.getSession().getAttribute("loginId");
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("id", loginId);
+		paramMap.put("boardNo", board.getBoardNo());
+		
+		if (loginId != null || "".equals(loginId)) {
+			int result = boardDao.isRecommended(paramMap);
+			log.warn("추천 조회 결과: {}", result);
+			if (result == 1) {
+				model.addAttribute("isRecommend", true);
+			}
+		}
+	}
+
+	@Override
+	public void recommendBoard(Board board, String loginId, Map<String, String> json) {
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("id", loginId);
+		paramMap.put("boardNo", board.getBoardNo());
+		
+		int checkRecommend = boardDao.isRecommended(paramMap);
+		
+		if (checkRecommend == 1) {
+			if (boardDao.deleteRecommend(paramMap) == 1) {
+				log.info("추천 취소");
+				json.put("msg", "추천이 취소되었습니다.");
+				json.put("isRecommend", "false");
+			} else {
+				log.warn("추천 취소 실패");
+				
+			}
+		} else if (checkRecommend == 0) {
+			if (boardDao.insertRecommend(paramMap) == 1) {
+				log.info("추천 완료");
+				json.put("msg", "해당글을 추천하셨습니다.");				
+				json.put("isRecommend", "true");
+			} else {
+				log.warn("추천 실패");
+			}
+		}
+		
+		json.put("recommendCnt", Integer.toString(boardDao.findById(board).getRecommend()));
+		
+	}
+	
+	
+	
+
+	
+	
+	
 }
