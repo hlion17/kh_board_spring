@@ -15,6 +15,16 @@ $(document).ready(function (){
 })
 </script>
 
+<style>
+a {
+	text-decoration: none;
+	color: black;
+}
+a:hover {
+	text-decoration: underline;
+}
+</style>
+
 <div class="container">
     <div class="row">
     <table class="table table-hover">

@@ -36,13 +36,13 @@
 	<logger name="jdbc.resultset">
 		<level value="WARN" />
 	</logger>
-	
+	<!-- INFO -> WARN (로그 보기 힘들어서 바꿈) -->
 	<logger name="jdbc.resultsettable">
-		<level value="INTO" />
+		<level value="WARN" />
 	</logger>
-	
+	<!-- INFO -> WARN (로그 보기 힘들어서 바꿈) -->
 	<logger name="jdbc.sqltiming">
-		<level value="INFO" />
+		<level value="WARN" />
 	</logger>
 	
 	<logger name="org.mybatis">

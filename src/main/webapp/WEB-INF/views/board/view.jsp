@@ -63,6 +63,29 @@ $(document).ready(function (){
 			$("#rec").text("추천")
 		}
 	}
+	// 댓글 입력(no-ajax)
+	$("#submitComment").click(function() {
+		var content = $("textarea[name=commentContent]").val()
+		var id = '${loginId}'
+		var boardNo = '${board.boardNo}'
+		
+		if (id == '') {
+			alert("로그인이 필요한 서비스입니다.")
+			return false;
+		}
+		if (content == '') {
+			alert("댓글 내용을 입력해주세요")
+			return false;
+		}
+		sendData("/comment/insert", {boardNo: boardNo, id: id, content: content})
+	})
+	// 댓글 삭제
+	$(".delComment").click(function() {
+		var boardNo = '${board.boardNo}'
+		var commentNo = $(this).attr("data-val")
+
+		sendData("/comment/delete", {boardNo: boardNo, commentNo: commentNo})
+	})
 	
 	
 	
@@ -110,6 +133,7 @@ ${board.content}
 </div>
 <hr>
 
+<!-- 게시글 네비 메뉴 -->
 <div class="row justify-content-start">
     <div class="col-auto">
     <button type="button" class="btn btn-primary" onclick="location.href='/board/list'">목록으로</button>
@@ -121,18 +145,56 @@ ${board.content}
     <button type="button" id="boardDel" class="btn btn-danger">삭제</button>
     </div>
     <div class="col-auto">
-    
-    <%-- <c:if test="${empty isRecommend}">
-    <button type="button" class="btn btn-info rec">추천</button>
-    </c:if>
-    <c:if test="${not empty isRecommend}">
-    <button type="button" class="btn btn-danger rec">추천 취소</button>
-    </c:if> --%>
-    
+    <!-- 추천/추천 취소 버튼 -->
     <button type="button" id="rec" class="btn"></button>
     
     </div>
 </div>
+<!-- 게시글 네비 메뉴 끝 -->
+
+<hr>
+
+<!--  댓글  -->
+<div class="card-body">
+    <!-- 댓글 입력 -->
+    <form class="mb-4">
+    <div class="row">
+    <textarea class="form-control" rows="3" placeholder="상대에게 상처가 주는 말을 삼가주세요" name="commentContent"></textarea>
+    <button type="button" id="submitComment" class="btn btn-info col-2" style="margin-top: 10px;">등록</button>
+    </div>
+    </form>
+
+	<!-- 댓글 조회 -->    
+    <c:forEach var="c" items="${cList}">
+	<div class="container" style="margin: 20px 0; padding: 10px;">
+		<div class="row">
+			<div class="col-2">
+				<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
+			</div>
+			<div class="col-8">
+				<div class="row" style="border-bottom: 1px solid #ccc; align-items: center; padding: 10px 0;">
+					<div class="col-auto">${c.id}</div>
+					<div class="col-4">
+					<fmt:formatDate value="${c.writeDate}" pattern="yy/MM/dd HH:mm"/>
+					</div>
+					<c:if test="${c.id eq loginId}">
+					<div class="col-auto" style="margin-left: auto;">
+						<button data-val="${c.commentNo}" class="btn btn-default delComment" style="color: red; padding: 0;">삭제</button>
+					</div>
+					</c:if>
+				</div>
+				<div class="row" style="padding: 5px;">
+					${c.content}
+				</div>
+			</div>
+		</div>
+	</div>
+    </c:forEach>
+    
+</div>
+<!-- 댓글 끝 -->
+
+<hr>
 
 </div>
 

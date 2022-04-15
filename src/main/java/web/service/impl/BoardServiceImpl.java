@@ -22,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.common.Pagination;
 import web.dao.face.BoardDao;
+import web.dao.face.CommentDao;
 import web.dto.Board;
+import web.dto.Comment;
 import web.service.face.BoardService;
 
 @Service
@@ -34,6 +36,9 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	private BoardDao boardDao;
+	
+	@Autowired
+	private CommentDao commentDao;
 	
 	@Override
 	public void list(Integer curPage, Model model) {
@@ -49,7 +54,7 @@ public class BoardServiceImpl implements BoardService {
 		log.info("startIdx: {}, endIdx: {}", pn.getStartIndex(), pn.getEndIndex());
 		
 		List<Board> list = boardDao.findPageList(pn);
-		log.info("게시글 페이지 조회 결과: {}", list);
+		log.info("게시글 페이지 조회 결과: {}", list.size());
 		log.info("페이지네이션: {}", pn);
 		
 		// View 전달 데이터 저장
@@ -61,9 +66,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void getBoard(Board board, Model model) {
 		Board foundBoard = boardDao.findById(board);
-		log.info("조회된 게시글: ", foundBoard);
+		log.info("조회된 게시글: ", foundBoard.getBoardNo());
 		
 		model.addAttribute("board", foundBoard);
+		
+		// 댓글
+		List<Comment> commentList = commentDao.findAllByBoardNo(board);
+		log.info("조회된 댓글: {}", commentList.size());
+		
+		model.addAttribute("cList", commentList);
 		
 	}
 
