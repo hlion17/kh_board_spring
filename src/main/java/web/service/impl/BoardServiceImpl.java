@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,25 +42,33 @@ public class BoardServiceImpl implements BoardService {
 	private CommentDao commentDao;
 	
 	@Override
-	public void list(Integer curPage, Model model) {
+	public void list(Integer curPage, String category, String keyword, Model model) {
 		
 		if (curPage == null || curPage < 0) {
 			curPage = 1;
 		}
 		
 		// 게시글 페이지 조회
-		int total = boardDao.getTotal();
+		//int total = boardDao.getTotal();
+		int total = boardDao.getTotal(category, keyword);
 		log.info("전체 게시글 수 조회 결과: {}", total);
 		Pagination pn = new Pagination(curPage, 10, total);
 		log.info("startIdx: {}, endIdx: {}", pn.getStartIndex(), pn.getEndIndex());
 		
-		List<Board> list = boardDao.findPageList(pn);
+		// findPageList 용 파라미터 맵 생성
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("pn", pn);
+		paramMap.put("category", category);
+		paramMap.put("keyword", keyword);
+		
+		List<Board> list = boardDao.findPageList(paramMap);
 		log.info("게시글 페이지 조회 결과: {}", list.size());
 		log.info("페이지네이션: {}", pn);
 		
 		// View 전달 데이터 저장
 		model.addAttribute("list", list);
 		model.addAttribute("pn", pn);
+		model.addAttribute("keyword", keyword);
 		
 	}
 
@@ -236,7 +245,8 @@ public class BoardServiceImpl implements BoardService {
 		json.put("recommendCnt", Integer.toString(boardDao.findById(board).getRecommend()));
 		
 	}
-	
+
+		
 	
 	
 

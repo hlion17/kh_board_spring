@@ -3,14 +3,18 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import web.common.Pagination;
 import web.dto.Board;
 
 public interface BoardDao {
 
-	int getTotal();
+	//int getTotal();
 
-	List<Board> findPageList(Pagination pn);
+	int getTotal(@Param("category") String category, @Param("keyword") String keyword);
+
+	List<Board> findPageList(Map<String, Object> paramMap);
 
 	Board findById(Board board);
 

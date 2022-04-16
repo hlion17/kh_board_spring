@@ -168,7 +168,7 @@ ${board.content}
     <c:forEach var="c" items="${cList}">
 	<div class="container" style="margin: 20px 0; padding: 10px;">
 		<div class="row">
-			<div class="col-2">
+			<div class="col-auto">
 				<img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
 			</div>
 			<div class="col-8">

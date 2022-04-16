@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import web.common.Pagination;
 import web.dto.Board;
 import web.service.face.BoardService;
 
@@ -40,11 +40,18 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/list", method = RequestMethod.GET)
-	public String list(Model model, Integer curPage) {
+	public String list(Model model
+			, Integer curPage
+			, String category
+			, String keyword) {
 		log.info("[/board/list][GET]");
 		log.info("요청 파라미터 - curPage: {}", curPage);
+		log.info("요청 파라미터 - category: {}", category);
+		log.info("요청 파라미터 - keyword: {}", keyword);
+		// 파라미터가 많으면 map 형태로 받는것도 생각해보기
 		
-		boardService.list(curPage, model);
+		//boardService.list(curPage, model);
+		boardService.list(curPage, category, keyword, model);
 		
 		return "board/list";
 	}

@@ -12,7 +12,43 @@ $(document).ready(function (){
 	if (msg != '') {
 		alert(msg)
 	}
+	
+	
+	/*$("#btnSearch").click(function() {
+		var keyword = $("input[name=keyword]").val()
+		var category = $("select[name=category]").val()
+		var curPage = '${pn.curPage}'
+		
+		console.log(keyword)
+		console.log(category)
+		console.log(curPage)
+		
+		if (keyword == '') {
+			alert("검색어를 입력해주세요")
+			return false
+		}
+		location.href="/board/list?curPage=" + curPage + "&category=" + category + "&keyword=" + keyword;
+	})*/
+	
+		
 })
+
+// 페이지 이동 함수 정의 
+function getPageList(curPage) {
+	var keyword = $("input[name=keyword]").val()
+	var category = $("select[name=category]").val()
+	if (curPage == null) curPage = '${pn.curPage}'
+	
+	console.log(keyword)
+	console.log(category)
+	console.log(curPage)
+	
+	/* if (keyword == '') {
+		alert("검색어를 입력해주세요")
+		return false
+	} */
+	location.href="/board/list?curPage=" + curPage + "&category=" + category + "&keyword=" + keyword;
+}
 </script>
 
 <style>
@@ -59,41 +95,67 @@ a:hover {
         <button type="button" class="btn btn-primary" onclick="location.href='/board/write'">글작성</button>
         </div>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-6">
+    <!-- 페이지네이션 -->
+    <div class="row justify-content-center" style="margin-top: 20px;">
+        <div class="col-auto">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
+            	<!-- 이전 -->
             	<c:if test="${pn.curPage gt 1}">
                 <li class="page-item">
-                    <a class="page-link" href="/board/list?curPage=${pn.curPage - 10}" aria-label="Previous">
+                    <a class="page-link" href="javascript:void(0);" onclick="getPageList(${pn.curPage - 10})">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="/board/list?curPage=${pn.prevPage}">Prev</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getPageList(${pn.prevPage})">Prev</a></li>
                 </c:if>
+                
+                <!-- 페이지들 -->
                 <c:forEach begin="${pn.startPage}" end="${pn.endPage}" var="i">
                 <c:choose>
                 <c:when test="${pn.curPage eq i }">
-     	            <li class="page-item active"><a class="page-link" href="/board/list?curPage=${i}">${i}</a></li>
+     	            <li class="page-item active">
+     	            	<a class="page-link" href="javascript:void(0);" onclick="getPageList(${i})">${i}</a>
+   	            	</li>
                 </c:when>
                 <c:otherwise>
-	                <li class="page-item"><a class="page-link" href="/board/list?curPage=${i}">${i}</a></li>
+	                <li class="page-item">
+	                	<%-- <a class="page-link" href="/board/list?curPage=${i}">${i}</a> --%>
+	                	<a class="page-link" href="javascript:void(0);" onclick="getPageList(${i})">${i}</a>
+                	</li>
                 </c:otherwise>
                 </c:choose>
-                
                 </c:forEach>
+                
+                <!-- 다음 -->
                 <c:if test="${pn.curPage ne pn.pageCnt && pn.curPage lt pn.pageCnt}">
-                <li class="page-item"><a class="page-link" href="/board/list?curPage=${pn.nextPage}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="getPageList(${pn.nextPage})">Next</a></li>
                 <li class="page-item">
-                    <a class="page-link" href="/board/list?curPage=${pn.curPage + 10}" aria-label="Next">
+                    <a class="page-link" href="javascript:void(0);" onclick="getPageList(${pn.curPage + 10})">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
                 </c:if>
+                
             </ul>
         </nav>
         </div>
     </div>
+    <!-- 검색바 -->
+    <div class="row justify-content-center">
+    	<div class="col-auto">
+		    <select class="form-select" name="category">
+				<option selected value="title">제목</option>
+				<option value="content">내용</option>
+			</select>
+		</div>
+		<div class="col-auto">
+			<div class="d-flex">
+				<input class="form-control me-2" type="search" placeholder="Search" name="keyword" value="${keyword}">
+				<button class="btn btn-outline-success" type="button" id="btnSearch" onclick="getPageList()")>Search</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 

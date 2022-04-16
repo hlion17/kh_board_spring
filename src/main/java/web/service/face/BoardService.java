@@ -13,8 +13,9 @@ import web.dto.Board;
 
 public interface BoardService {
 
-	void list(Integer curPage, Model model);
-
+	//void list(Integer curPage, Model model);
+	void list(Integer curPage, String category, String keyword, Model model);
+	
 	void getBoard(Board board, Model model);
 
 	void write(Board board, Model model, RedirectAttributes rttr);

@@ -31,9 +31,9 @@ public class Pagination {
 		// 총 블럭수 계산
 		setBlockCnt(pageCnt);
 		// 블럭 세팅
-		blockSetting(curPage);
+		blockSetting(this.curPage);
 		// startIndex
-		setIndex(curPage);
+		setIndex(this.curPage);
 	}
 	
 	private void setPageCnt(int listCnt) {

@@ -5,12 +5,17 @@
     
 <mapper namespace="web.dao.face.BoardDao">
 
-	<select id="getTotal" resultType="int">
+	<select id="getTotal" resultType="int" parameterType="map">
 		SELECT count(*)
 		FROM board
+		<where>
+		<if test="category != null and keyword != null">
+		AND ${category} LIKE '%' || #{keyword} || '%'
+		</if>
+		</where>
 	</select>
 	
-	<select id="findPageList" resultType="web.dto.Board" parameterType="web.common.Pagination">
+	<select id="findPageList" resultType="web.dto.Board" parameterType="map">
 		SELECT 
 			board_no
 			, title
@@ -22,8 +27,13 @@
 			,(select count(*) from recommend where board_no = board.board_no) recommend
 		FROM (
 			SELECT row_number() over (order by board_no desc) R, board.* FROM board
+			<where>
+			<if test="category != null and keyword != null">
+			AND ${category} LIKE '%' || #{keyword} || '%'
+			</if>
+			</where>
 		) board
-		WHERE R between #{startIndex} and #{endIndex}
+		WHERE R between #{pn.startIndex} and #{pn.endIndex}
 	</select>
 	
 	<select id="findById" parameterType="web.dto.Board" resultType="web.dto.Board">
