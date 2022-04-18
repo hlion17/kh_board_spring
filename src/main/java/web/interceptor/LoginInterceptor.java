@@ -1,7 +1,5 @@
 package web.interceptor;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

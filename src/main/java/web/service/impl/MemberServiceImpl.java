@@ -43,9 +43,12 @@ public class MemberServiceImpl implements MemberService{
 	public void login(Member member, Model model, HttpSession session) {
 		String id = member.getId();
 		String pw = member.getPw();
+		
+		// 필요없는 코드 확인 후 삭제
 		String dest = "";
 		if (session.getAttribute("dest") != null) dest = (String) session.getAttribute("dest"); 
 		logger.info("로그인 전 URL: {}", dest);
+		// --------------------------
 		
 		Member foundMember = memberDao.findById(id);
 		

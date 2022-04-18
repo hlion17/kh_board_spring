@@ -13,6 +13,16 @@ $(document).ready(function (){
 		alert(msg)
 	}
 	
+	const select = document.querySelector("select[name='category']")
+	//const select = $("select[name='category']")
+
+    for (i = 0; i < select.length; i++) {
+        if (select.options[i].value == '${category}') {
+            select.options[i].selected = true
+            break;
+        }
+    }
+	
 	
 	/*$("#btnSearch").click(function() {
 		var keyword = $("input[name=keyword]").val()
@@ -145,7 +155,7 @@ a:hover {
     <div class="row justify-content-center">
     	<div class="col-auto">
 		    <select class="form-select" name="category">
-				<option selected value="title">제목</option>
+				<option value="title">제목</option>
 				<option value="content">내용</option>
 			</select>
 		</div>

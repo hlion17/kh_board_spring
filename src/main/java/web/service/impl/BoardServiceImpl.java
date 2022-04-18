@@ -44,7 +44,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void list(Integer curPage, String category, String keyword, Model model) {
 		
-		if (curPage == null || curPage < 0) {
+		if (curPage == null || curPage <= 0) {
 			curPage = 1;
 		}
 		
@@ -69,6 +69,7 @@ public class BoardServiceImpl implements BoardService {
 		model.addAttribute("list", list);
 		model.addAttribute("pn", pn);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("category", category);
 		
 	}
 
