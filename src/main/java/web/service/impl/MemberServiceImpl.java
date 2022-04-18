@@ -46,9 +46,11 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public Map<String, Object> login(Map<String, Object> resultMap) {
+		// 요청 파라미터 분석
 		String id = ((Member) resultMap.get("member")).getId();
 		String pw = ((Member) resultMap.get("member")).getPw();
 		
+		// 요청한 id 조회
 		Member foundMember = memberDao.findById(id);
 		
 		// 요청한 회원 정보 검증
@@ -56,19 +58,17 @@ public class MemberServiceImpl implements MemberService{
 			logger.info("아이디가 존재하지 않음");
 			resultMap.put("loginResult", -1);
 			resultMap.put("msg", "아이디를 확인하세요");
-			return resultMap;
 		} else if (!pw.equals(foundMember.getPw())) {
 			logger.info("비밀번호 불일치");
 			resultMap.put("loginResult", -2);
 			resultMap.put("msg", "비밀번호를 확인하세요");
-			return resultMap;
 		} else {
 			resultMap.put("loginResult", 1);
 			resultMap.put("member", foundMember);
-			resultMap.put("msg", "로그인 성공");
 			logger.info("로그인 성공");
-			return resultMap;
 		}
+		
+		return resultMap;
 		
 		/*
 		if (foundMember == null) {

@@ -63,14 +63,17 @@ public class MemberController {
 		Map<String, Object> resultMap = new HashMap<>();
 		resultMap.put("member", member);
 		
+		// 로그인 인증 요청 검증
 		resultMap = memberService.login(resultMap);
 		resultMap.forEach((key, value) -> model.addAttribute(key, value));
 		
 		
-		if ((Integer)model.getAttribute("loginResult") == -1 || 
-				(Integer)model.getAttribute("loginResult") == -2) {
+		if ((Integer) model.getAttribute("loginResult") == -1 || 
+				(Integer) model.getAttribute("loginResult") == -2) {
+			logger.info("로그인 실패 - 원인: {}", (String) model.getAttribute("msg"));
 			return "member/login";
 		} else {
+			logger.info("로그인 성공");
 			session.setAttribute("isLogin", true);
 			session.setAttribute("loginId", ((Member) model.getAttribute("member")).getId());
 			session.setAttribute("loginNick", ((Member) model.getAttribute("member")).getNick());
