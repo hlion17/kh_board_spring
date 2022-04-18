@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,31 +27,43 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.support.SessionFlashMapManager;
 
+import oracle.net.ns.SessionAtts;
 import web.dto.Member;
 import web.service.face.MemberService;
 
+// JUnit Test에서 Mockito 프레임워크 확장
 @ExtendWith(MockitoExtension.class)
+// JUnit Test에서 Spring 프레임워크 확장
 @ExtendWith(SpringExtension.class)
+// Spring 컨테이너 설정파일 위치 지정
 @ContextConfiguration(locations = {
 		"file:src/main/webapp/WEB-INF/spring/root-context.xml", 
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
 })
+// MockMvc 통합 테스트에서 WebApplication Context를 주입하기 위한 어노테이션
 @WebAppConfiguration
+// 모든 테스트 트랜젝션 관리
+@Transactional
 class MemberControllerTest {
 	
+	// MockMvc 통합 테스트를 위한 Context 주입
 	@Autowired
 	WebApplicationContext context;
 	
+	// Controller에서 사용하는 Service 객체 주입
 	@Autowired
 	MemberService memberService;
 	
 	private MockMvc mockMvc;
 	
+	// 테스트용 데이터 필드
 	private static Member member;
 	private static Member existMember;
 
@@ -70,6 +83,7 @@ class MemberControllerTest {
 	
 	@BeforeEach
 	void setup() throws Exception {
+		// 단위 테스트용 mockMvc
 //		this.mockMvc = MockMvcBuilders
 //							.standaloneSetup(memberController)
 //							.addInterceptors(loginInterceptor)
@@ -78,10 +92,10 @@ class MemberControllerTest {
 //		when(loginInterceptor.preHandle(any(), any(), any())).thenReturn(true);
 //		when(authInterceptor.preHandle(any(), any(), any())).thenReturn(true);
 		
+		// 통합 테스트용 mockMvc
 		this.mockMvc = MockMvcBuilders
 							.webAppContextSetup(this.context)
 							.build();
-		
 	}
 	
 	@DisplayName("회원가입 페이지 이동")
@@ -92,19 +106,19 @@ class MemberControllerTest {
 									.get("/member/join")
 									.param("id", member.getId())
 									.param("pw", member.getPw())
-									.param("nick", member.getNick())
-									.sessionAttr("isLogin", true);
+									.param("nick", member.getNick());
 		// when
-		this.mockMvc.perform(request)
+		ResultActions perfome = this.mockMvc.perform(request);
+		
 		// then
-					.andExpect(view().name("member/join"))
-					.andDo(print())
-					.andExpect(status().isOk())
-					.andExpect(forwardedUrl("/WEB-INF/views/member/join.jsp"));
+		perfome
+			.andExpect(view().name("member/join"))
+			//.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(forwardedUrl("/WEB-INF/views/member/join.jsp"));
 	}
 	
 	@DisplayName("회원가입 - 가입성공")
-	@Transactional
 	@Test
 	void joinProccessSuccess() throws Exception {
 		// given
@@ -115,11 +129,13 @@ class MemberControllerTest {
 									.param("nick", member.getNick());
 		
 		// when
-		this.mockMvc.perform(request)
-		// then
-						//.andDo(print())
-						.andExpect(redirectedUrl("/member/login"));
+		ResultActions result = this.mockMvc.perform(request);
 		
+		// then
+		result
+			//.andDo(print())
+			.andExpect(flash().attribute("msg", any()))
+			.andExpect(redirectedUrl("/member/login"));
 	}
 	
 	// 에러 발생을 위해 mock memberService 객체 주입하는 법 모르겠다.

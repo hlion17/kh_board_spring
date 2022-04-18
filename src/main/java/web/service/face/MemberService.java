@@ -10,10 +10,10 @@ import web.dto.Member;
 
 public interface MemberService {
 
-	int join(Member member);
+	public int join(Member member);
 
-	void login(Member member, Model model, HttpSession session);
+	public Map<String, Object> login(Map<String, Object> resultMap);
 
-	void getDetail(Member member, Model model);
+	public void getDetail(Member member, Model model);
 
 }

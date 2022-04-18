@@ -1,7 +1,7 @@
 package web.service.impl;
 
-import static org.hamcrest.CoreMatchers.nullValue;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +25,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public int join(Member member) {
-		logger.info("MemberService");
+		
+		// 중복된 ID인지 확인
+		if (memberDao.findById(member.getId()) == null) {
+			logger.warn("중복된 아이디로 가입요청");
+			return -1;
+		}
 		
 		int result = memberDao.insert(member);
 		
@@ -33,25 +38,39 @@ public class MemberServiceImpl implements MemberService{
 			logger.info("회원가입 성공");
 			return 1;
 		} else {
-			logger.info("회원가입 실패");
+			logger.warn("회원가입 실패");
 			return -1;
 		}
 		
 	}
 
 	@Override
-	public void login(Member member, Model model, HttpSession session) {
-		String id = member.getId();
-		String pw = member.getPw();
-		
-		// 필요없는 코드 확인 후 삭제
-		String dest = "";
-		if (session.getAttribute("dest") != null) dest = (String) session.getAttribute("dest"); 
-		logger.info("로그인 전 URL: {}", dest);
-		// --------------------------
+	public Map<String, Object> login(Map<String, Object> resultMap) {
+		String id = ((Member) resultMap.get("member")).getId();
+		String pw = ((Member) resultMap.get("member")).getPw();
 		
 		Member foundMember = memberDao.findById(id);
 		
+		// 요청한 회원 정보 검증
+		if (foundMember == null) {
+			logger.info("아이디가 존재하지 않음");
+			resultMap.put("loginResult", -1);
+			resultMap.put("msg", "아이디를 확인하세요");
+			return resultMap;
+		} else if (!pw.equals(foundMember.getPw())) {
+			logger.info("비밀번호 불일치");
+			resultMap.put("loginResult", -2);
+			resultMap.put("msg", "비밀번호를 확인하세요");
+			return resultMap;
+		} else {
+			resultMap.put("loginResult", 1);
+			resultMap.put("member", foundMember);
+			resultMap.put("msg", "로그인 성공");
+			logger.info("로그인 성공");
+			return resultMap;
+		}
+		
+		/*
 		if (foundMember == null) {
 			logger.info("아이디가 존재하지 않음");
 			model.addAttribute("msg", "아이디가 존재하지 않음");
@@ -63,6 +82,7 @@ public class MemberServiceImpl implements MemberService{
 			session.setAttribute("loginId", foundMember.getId());
 			session.setAttribute("loginNick", foundMember.getNick());
 		}
+		*/
 		
 	}
 

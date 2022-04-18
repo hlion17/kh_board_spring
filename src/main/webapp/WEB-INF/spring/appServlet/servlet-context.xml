@@ -32,7 +32,7 @@
 			<mapping path="/board/write"/>
 			<mapping path="/board/update"/>
 			<mapping path="/board/delete"/>
-			<mapping path="/board/recommned"/>
+			<mapping path="/board/recommend"/>
 			<beans:bean class="web.interceptor.AuthInterceptor"/>
 		</interceptor>
 	</interceptors>

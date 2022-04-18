@@ -122,7 +122,7 @@ $(document).ready(function() {
 	</div>
 	
 	<button id="joinSubmit" type="button" class="btn btn-primary col col-lg-2">회원가입</button>
-	<button type="button" class="btn btn-danger col col-lg-2" onclick="history.back(-1)">취소</button>
+	<button type="button" class="btn btn-danger col col-lg-2" onclick="history.back()">취소</button>
   
 </form>
 </div>

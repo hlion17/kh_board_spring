@@ -53,8 +53,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 		}
 		
 		if (request.getMethod().equals("GET")) {
-				logger.info(" >> DEST : {}", uri + query);
-				request.getSession().setAttribute("dest", uri + query);
+			logger.info(">> Dest 세션 저장 : {}", uri + query);
+			request.getSession().setAttribute("dest", uri + query);
 		}
 	}
 

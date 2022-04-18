@@ -149,7 +149,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	@RequestMapping(value = "/board/recommned", method = RequestMethod.POST)
+	@RequestMapping(value = "/board/recommend", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> recommned(Board board, @RequestParam String loginId) {
 		log.info("[/board/recommend][POST]");

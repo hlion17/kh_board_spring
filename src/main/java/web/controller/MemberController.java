@@ -1,6 +1,9 @@
 package web.controller;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -32,6 +35,7 @@ public class MemberController {
 	public String joinProcess(Member member, RedirectAttributes rttr, Model model) {
 		logger.info("[/member/join][POST]");
 		logger.info("요청 파라미터 - Member: {}", member);
+		
 		String viewName = "";
 		
 		if (memberService.join(member) == 1) {
@@ -52,17 +56,34 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
-	public void loginProcess(Member member, HttpSession session, Model model) {
+	public String loginProcess(Member member, HttpSession session, Model model) {
 		logger.info("[/member/login][POST]");
 		logger.info("요청 파라미터 - member: {}", member);
 		
-		memberService.login(member, model, session);
+		Map<String, Object> resultMap = new HashMap<>();
+		resultMap.put("member", member);
+		
+		resultMap = memberService.login(resultMap);
+		resultMap.forEach((key, value) -> model.addAttribute(key, value));
+		
+		
+		if ((Integer)model.getAttribute("loginResult") == -1 || 
+				(Integer)model.getAttribute("loginResult") == -2) {
+			return "member/login";
+		} else {
+			session.setAttribute("isLogin", true);
+			session.setAttribute("loginId", ((Member) model.getAttribute("member")).getId());
+			session.setAttribute("loginNick", ((Member) model.getAttribute("member")).getNick());
+			// redirect 는 인터셉터에서 처리
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/member/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
 		logger.info("[/member/logout][GET]");
 		session.invalidate();
+		logger.info("로그아웃");
 		return "redirect:/";
 	}
 	

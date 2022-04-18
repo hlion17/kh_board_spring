@@ -28,17 +28,23 @@ $(document).ready(function (){
 		var boardNo = '${board.boardNo}'
 		var loginId = '${loginId}'
 		
-		sendData('/board/recommned', {boardNo: boardNo, loginId: loginId})
+		sendData('/board/recommend', {boardNo: boardNo, loginId: loginId})
 	}) */
 	
 	// 추천하기
 	$("#rec").click(function() {
 		var boardNo = '${board.boardNo}'
 		var loginId = '${loginId}'
+		
+		if (loginId == '') {
+			alert("로그인이 필요한 서비스 입니다.")
+			location.href="/member/login"
+			return false
+		}
 			
 		$.ajax({
 			type: "POST"
-			, url: "/board/recommned"
+			, url: "/board/recommend"
 			, dataType: "json"
 			, data: {boardNo: boardNo, loginId: loginId}
 			, success: function(res) {
@@ -46,8 +52,10 @@ $(document).ready(function (){
 				alert(res.msg)
 				$("#recommend").val(res.recommendCnt)
 			}
-			, error: function() {
+			, error: function(res, test, test1) {
+				console.log("ajax실패")
 				
+				//location.href="/member/login"
 			}
 		})
 	})
