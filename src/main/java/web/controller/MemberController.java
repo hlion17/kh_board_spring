@@ -65,9 +65,9 @@ public class MemberController {
 		
 		// 로그인 인증 요청 검증
 		resultMap = memberService.login(resultMap);
+		
+		// 로그인 인증 결과에 따른 View 처리
 		resultMap.forEach((key, value) -> model.addAttribute(key, value));
-		
-		
 		if ((Integer) model.getAttribute("loginResult") == -1 || 
 				(Integer) model.getAttribute("loginResult") == -2) {
 			logger.info("로그인 실패 - 원인: {}", (String) model.getAttribute("msg"));
