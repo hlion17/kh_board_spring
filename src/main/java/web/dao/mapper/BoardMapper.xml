@@ -93,4 +93,24 @@
 		WHERE id = #{id} and board_no =#{boardNo}
 	</delete>
 	
+	<insert id="insertFile" parameterType="web.dto.BoardFile">
+		INSERT INTO boardFile (file_no, board_no, origin_name, stored_name)
+		VALUES (boardfile_seq.nextval, #{boardNo}, #{originName}, #{storedName})
+	</insert>
+	
+	<select id="selectBoardFileByBoardNo" resultType="web.dto.BoardFile" parameterType="web.dto.Board">
+		SELECT file_no, board_no, origin_name, stored_name FROM boardFile
+		WHERE board_no = #{boardNo}
+	</select>
+	
+	<select id="selectBoardFileByFileNo" resultType="web.dto.BoardFile" parameterType="web.dto.BoardFile">
+		SELECT 
+			file_no
+			, board_no
+			, origin_name
+			, stored_name 
+		FROM boardFile
+		WHERE file_no = #{fileNo}
+	</select>
+	
 </mapper>

@@ -9,37 +9,10 @@
 <script>
 $(document).ready(function() {
 	
-/* 	$('#write').click(function() {
-		var title = $('input[name=title]').val()
-		var content = $('textarea[name=content]').val()
-		var writerId = '${loginId}'
-		
-		if (emptyChk(title, '제목') && emptyChk(content, '내용')) {
-		
-			$.ajax({
-				type: "POST"
-				, url: "/board/write"
-				, dataType: "html"
-				, data: {title: title, content: content, writerId: writerId}
-				, success: function(res) {
-					alert('확인')
-				}
-				, error: function() {
-					console.log("ajax 실패")
-				}
-			})
-		}
-		return false
-		
-	}) */
-	
  	$('#writeForm').submit(function() {
 		var title = $('input[name=title]').val()
 		var content = $('textarea[name=content]').val()
 
-/* 		if (emptyChk(title, '제목') && emptyChk(content, '내용')) {
-			$(this).submit()	
-		} */
 		if (emptyChk(title, '제목')) {
 			$(this).submit()	
 		}
@@ -58,7 +31,7 @@ $(document).ready(function() {
 
 <div class="container">
 
-<form id="writeForm" action="/board/write" method="post">
+<form id="writeForm" action="/board/write" method="post" enctype="multipart/form-data">
 
 <div class="mb-3 row">
 	<label for="title" class="form-label">글제목</label>
@@ -71,10 +44,19 @@ $(document).ready(function() {
 	<textarea class="form-control" id="content" rows="3" name="content"></textarea>
 </div>
 
+
+
 <div class="row justify-content-start">
-    <div class="col-2">
-    <button type="submit" class="btn btn-primary" id="write">글작성</button>
     </div>
+		<label for="file" class="form-label">파일</label>
+		<input class="form-control" type="file" id="file" name="file">
+	<div>
+    
+    <div class="col-2 d-flex">
+    	<button type="submit" class="btn btn-primary" id="write">글작성</button>
+    	<button type="button" class="btn btn-danger" id="calcel" onclick="history.back();">취소</button>
+    </div>
+	
 </div>
 
 <input type="hidden" name="writerId" value="${loginId}">

@@ -10,15 +10,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.dto.Board;
+import web.dto.BoardFile;
 
 public interface BoardService {
 
 	//void list(Integer curPage, Model model);
 	void list(Integer curPage, String category, String keyword, Model model);
 	
-	void getBoard(Board board, Model model);
+	Map<String, Object> getBoard(Board board);
 
-	void write(Board board, Model model, RedirectAttributes rttr);
+	void write(Board board, Model model, RedirectAttributes rttr, MultipartFile file);
 
 	void countingHit(Board board, HttpServletRequest requset, HttpServletResponse response);
 
@@ -31,5 +32,9 @@ public interface BoardService {
 	void isRecommendedBoard(Board board, HttpServletRequest request, Model model);
 
 	void recommendBoard(Board board, String loginId, Map<String, String> json);
+
+	public BoardFile getAttachFile(Board board);
+
+	public BoardFile getFile(BoardFile boardFile);
 
 }

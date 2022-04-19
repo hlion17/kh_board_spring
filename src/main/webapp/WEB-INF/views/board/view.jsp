@@ -141,6 +141,12 @@ ${board.content}
 </div>
 <hr>
 
+<div>
+	<strong>첨부파일: </strong>
+	<a href="/board/download?fileNo=${boardFile.fileNo}">${boardFile.originName}</a>
+</div>
+
+<hr>
 <!-- 게시글 네비 메뉴 -->
 <div class="row justify-content-start">
     <div class="col-auto">
@@ -167,7 +173,7 @@ ${board.content}
     <!-- 댓글 입력 -->
     <form class="mb-4">
     <div class="row">
-    <textarea class="form-control" rows="3" placeholder="상대에게 상처가 주는 말을 삼가주세요" name="commentContent"></textarea>
+    <textarea class="form-control" rows="3" placeholder="상대에게 상처가 될 수 있는 말은 삼가주세요" name="commentContent"></textarea>
     <button type="button" id="submitComment" class="btn btn-info col-2" style="margin-top: 10px;">등록</button>
     </div>
     </form>

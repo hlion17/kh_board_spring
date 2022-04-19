@@ -49,6 +49,13 @@
 		<beans:property name="order" value="1" />
 	</beans:bean>
 	
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>
+	</beans:bean>
+	
+	<!-- DownloadView 빈 설정 -->
+	<beans:bean id="down" class="web.view.DownloadView"/>
+	
 	<!-- multipartResolver 설정 -->
 	<!-- 파일업로드 요청을 처리하는 클래스 (스프링 빈) -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

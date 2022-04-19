@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import web.common.Pagination;
 import web.dto.Board;
+import web.dto.BoardFile;
 
 public interface BoardDao {
 
@@ -31,5 +32,11 @@ public interface BoardDao {
 	int insertRecommend(Map<String, Object> paramMap);
 
 	int deleteRecommend(Map<String, Object> paramMap);
+
+	public void insertFile(BoardFile boardFile);
+
+	public BoardFile selectBoardFileByBoardNo(Board board);
+
+	public BoardFile selectBoardFileByFileNo(BoardFile boardFile);
 
 }

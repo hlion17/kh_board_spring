@@ -12,11 +12,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -25,6 +25,7 @@ import web.common.Pagination;
 import web.dao.face.BoardDao;
 import web.dao.face.CommentDao;
 import web.dto.Board;
+import web.dto.BoardFile;
 import web.dto.Comment;
 import web.service.face.BoardService;
 
@@ -74,23 +75,69 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void getBoard(Board board, Model model) {
+	public Map<String, Object> getBoard(Board board) {
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		// 게시글
 		Board foundBoard = boardDao.findById(board);
 		log.info("조회된 게시글: ", foundBoard.getBoardNo());
-		
-		model.addAttribute("board", foundBoard);
+		resultMap.put("board", foundBoard);
 		
 		// 댓글
 		List<Comment> commentList = commentDao.findAllByBoardNo(board);
 		log.info("조회된 댓글: {}", commentList.size());
+		resultMap.put("cList", commentList);
 		
-		model.addAttribute("cList", commentList);
-		
+		return resultMap;
 	}
 
+	@Transactional
 	@Override
-	public void write(Board board, Model model, RedirectAttributes rttr) {
+	public void write(Board board, Model model, RedirectAttributes rttr, MultipartFile file) {
+		
+		if ("".equals(board.getTitle())) {
+			board.setTitle("제목없음");
+		}
+		
 		int result = boardDao.insert(board);
+		
+		// -------------------------------------------
+		// 파일 업로드
+		if (file.getSize() <= 0) {
+			return;
+		}
+		
+		// 파일이 저장될 경로
+		String storedPath = context.getRealPath("upload");
+		File storedFolder = new File(storedPath);
+		if (!storedFolder.exists()) {
+			storedFolder.mkdir();
+		}
+		
+		// 파일이 저장될 이름
+		String originName = file.getOriginalFilename();
+		String storedName = UUID.randomUUID().toString().split("-")[4] + file.getOriginalFilename();
+		
+		// 저장될 파일 정보 객체
+		File dest = new File(storedFolder, storedName);
+		
+		try {
+			file.transferTo(dest);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		// ------------------------------------------
+		
+		BoardFile boardFile = new BoardFile();
+		boardFile.setBoardNo(board.getBoardNo());
+		boardFile.setOriginName(originName);
+		boardFile.setStoredName(storedName);
+		
+		boardDao.insertFile(boardFile);
+		
 		
 		if (result == 1) {
 			rttr.addFlashAttribute("msg", "게시글이 성공적으로 등록되었습니다.");
@@ -153,7 +200,7 @@ public class BoardServiceImpl implements BoardService {
 		// 파일 저장 경로 생성
 		String storedPath = context.getRealPath("img");
 		File storedFolder = new File(storedPath);
-		if (storedFolder.exists()) {
+		if (!storedFolder.exists()) {
 			storedFolder.mkdir();			
 		}
 		
@@ -199,7 +246,6 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-	
 	@Override
 	public void isRecommendedBoard(Board board, HttpServletRequest request, Model model) {
 		String loginId = (String) request.getSession().getAttribute("loginId");
@@ -245,6 +291,16 @@ public class BoardServiceImpl implements BoardService {
 		
 		json.put("recommendCnt", Integer.toString(boardDao.findById(board).getRecommend()));
 		
+	}
+
+	@Override
+	public BoardFile getAttachFile(Board board) {
+		return boardDao.selectBoardFileByBoardNo(board);
+	}
+
+	@Override
+	public BoardFile getFile(BoardFile boardFile) {
+		return boardDao.selectBoardFileByFileNo(boardFile);
 	}
 
 		

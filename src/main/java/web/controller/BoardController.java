@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import web.common.Pagination;
 import web.dto.Board;
+import web.dto.BoardFile;
 import web.service.face.BoardService;
 
 
@@ -64,9 +63,22 @@ public class BoardController {
 		log.info("[/board/view][GET]");
 		log.info("요청 파라미터 - board: ", board);
 		
-		boardService.getBoard(board, model);
+		// 요청 파라미터 유효성 검증
+		if (board.getBoardNo() < 1) {
+			return "redirect:/board/list";
+		}
+		
+		Map<String, Object> boardResult = boardService.getBoard(board);
 		boardService.countingHit(board, request, response);
 		boardService.isRecommendedBoard(board, request, model);
+		
+		// 첨부파일 정보 모델값 전달
+		BoardFile boardFile = boardService.getAttachFile(board);
+		log.info("게시판 첨부파일: {}", boardFile);
+		model.addAttribute("boardFile", boardFile);
+		
+		// 모델값 전달
+		boardResult.forEach( (key, value) -> model.addAttribute(key, value) );
 		
 		return "board/view";
 	}
@@ -78,11 +90,16 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = "/board/write", method = RequestMethod.POST)
-	public String writeProcess(Board board, Model model, RedirectAttributes rttr) {
+	public String writeProcess(
+			Board board
+			, Model model
+			, RedirectAttributes rttr
+			, MultipartFile file) {
 		log.info("[/board/wirte][POST]");
-		log.info("요청 파라미터 - title, content, writerId: {}", board);
+		log.info("요청 파라미터 - board: {}", board);
+		log.info("요청 파라미터 - file: {}", file);
 		
-		boardService.write(board, model, rttr);
+		boardService.write(board, model, rttr, file);
 		
 		return "redirect:/board/list";
 	}
@@ -120,7 +137,9 @@ public class BoardController {
 			return "redirect:/board/view?boardNo=" + board.getBoardNo();
 		}
 		
-		boardService.getBoard(board, model);
+		Map<String, Object> boardResult = boardService.getBoard(board);
+		boardResult.forEach( (key, value) -> model.addAttribute(key, value) );
+		
 		return "board/update";
 	}
 	
@@ -163,4 +182,12 @@ public class BoardController {
 		return json;
 	}
 	
+	@RequestMapping("/board/download")
+	public String download(BoardFile boardFile, Model model) {
+		
+		boardFile = boardService.getFile(boardFile);
+		model.addAttribute("downFile", boardFile);
+		
+		return "down";
+	}
 }
