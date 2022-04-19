@@ -87,13 +87,13 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void getDetail(Member member, Model model) {
+	public Member getDetail(Member member) {
 		String id = member.getId();
 		
 		Member foundMember = memberDao.findById(id);
 		logger.info("조회 된 회원 정보: {}", foundMember);
 		
-		model.addAttribute("member", foundMember);
+		return foundMember;
 	}
 
 }

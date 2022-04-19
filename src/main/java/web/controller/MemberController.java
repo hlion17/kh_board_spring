@@ -95,7 +95,9 @@ public class MemberController {
 		logger.info("[/member/detail][GET]");
 		logger.info("요청 파라미터 - member: {}", member);
 		
-		memberService.getDetail(member, model);
+		Member resultMember = memberService.getDetail(member);
+		
+		model.addAttribute("member", resultMember);
 		
 		return "member/detail";
 	}

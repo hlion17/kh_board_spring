@@ -14,6 +14,6 @@ public interface MemberService {
 
 	public Map<String, Object> login(Map<String, Object> resultMap);
 
-	public void getDetail(Member member, Model model);
+	public Member getDetail(Member member);
 
 }
