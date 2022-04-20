@@ -117,6 +117,7 @@ class MemberControllerTest {
 						view().name("member/login"), 
 						status().isOk(),
 						request().sessionAttributeDoesNotExist("isLogin", "loginId", "loginNick")
+						
 					);
 	}
 	

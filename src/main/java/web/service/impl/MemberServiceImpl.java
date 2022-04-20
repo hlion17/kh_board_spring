@@ -1,16 +1,13 @@
 package web.service.impl;
 
 
-import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import web.dao.face.MemberDao;
 import web.dto.Member;
@@ -27,7 +24,7 @@ public class MemberServiceImpl implements MemberService{
 	public int join(Member member) {
 		
 		// 중복된 ID인지 확인
-		if (memberDao.findById(member.getId()) == null) {
+		if (memberDao.findById(member.getId()) != null) {
 			logger.warn("중복된 아이디로 가입요청");
 			return -1;
 		}

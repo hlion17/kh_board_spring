@@ -226,7 +226,6 @@
 	</dependencies>
     <build>
         <plugins>
-        
 			<plugin>
 	            <artifactId>maven-surefire-plugin</artifactId>
 	            <version>2.22.2</version>
@@ -235,7 +234,15 @@
 	            <artifactId>maven-failsafe-plugin</artifactId>
 	            <version>2.22.2</version>
 	        </plugin>
-        
+	        <!-- 추가 -->
+	        <plugin>
+	        	<groupId>org.apache.maven.plugins</groupId>
+	        	<artifactId>maven-war-plugin</artifactId>
+	        	<version>3.3.1</version>
+	        	<configuration>
+	        		<warSourceDirectory>webapp</warSourceDirectory>
+	        	</configuration>
+	        </plugin>
         
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
@@ -251,13 +258,15 @@
                     <downloadJavadocs>true</downloadJavadocs>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <!-- <version>2.5.1</version> -->
+                <version>3.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
