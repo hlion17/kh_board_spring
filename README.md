@@ -50,3 +50,6 @@
 ![board](https://user-images.githubusercontent.com/89788111/172352080-d9af6022-5350-4401-bfac-7cea3970faa1.gif)
 <br>
 
+- 캐시를 사용하여 무분별한 조회수 증가 방지
+![cache](https://user-images.githubusercontent.com/89788111/172353667-b15d1930-b5d6-4dcc-82cd-bc2baac45dac.gif)
+
