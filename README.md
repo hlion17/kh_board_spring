@@ -44,3 +44,9 @@
 <br>
 
 ![member](https://user-images.githubusercontent.com/89788111/172350781-16a5dc05-ec9b-429f-bba6-0e13aaef1daa.gif)
+<br>
+
+- 게시판 기능
+![board](https://user-images.githubusercontent.com/89788111/172352080-d9af6022-5350-4401-bfac-7cea3970faa1.gif)
+<br>
+
