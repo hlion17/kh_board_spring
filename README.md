@@ -9,7 +9,7 @@
 ### 개발환경
 
 - FrontEnd: HTML, CSS, Javascript, jQuery, Bootstrap
-- BackEnd: Tomcat Server, Java, Spring Framework, Mybatis
+- BackEnd: Tomcat Server 9, Java 1.8, Spring 5.3.18, Mybatis
 - Database: Oracle
 - Test: Junit5, Mockito  
 <br>
@@ -38,6 +38,14 @@
 
 - 인터셉터를 사용하여 회원제 기능 인증
 - 캐시를 사용하여 무분별한 조회수 증가 방지  
+<br>
+
+### 개발 과정
+- [프로젝트 셋팅](https://github.com/hlion17/kh_board_spring/issues/1)
+- [게시글 목록 조회](https://github.com/hlion17/kh_board_spring/issues/2)
+- [회원 기능 추가](https://github.com/hlion17/kh_board_spring/issues/3)
+- [게시글 부가 기능 추가](https://github.com/hlion17/kh_board_spring/issues/4)
+- [기타 추가 기능](https://github.com/hlion17/kh_board_spring/issues/5)
 <br>
 
 ## 개발 결과
